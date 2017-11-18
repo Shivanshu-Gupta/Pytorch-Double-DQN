@@ -1,0 +1,23 @@
+use_gpu: True
+seed: 123123
+env_id: 1 
+mode: 'eval'
+agent_params:
+  double_dqn: True
+  batch_size: 32
+  gamma: 0.99
+  replay_memory: 1000000
+  replay_start: 50000
+  replay_freq: 4
+  hist_len: 4
+  target_update_freq: 10000
+  epsilon:
+    start: 1
+    end: 0.1
+    end_t: 1000000
+  optim_params:
+    lr: 0.00025
+    momentum: 0.95
+    eps: 0.01
+  log_freq: 10000
+  save_freq: 100000
