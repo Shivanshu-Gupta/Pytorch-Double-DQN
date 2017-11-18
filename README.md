@@ -13,8 +13,8 @@ python main.py [-h] --config PATH --save_dir PATH [--modelpath PATH]
 ```
 The config file is a yaml file used to provide arguments include mode (train or eval). A sample config file has been provided [here].
 # References
-https://github.com/transedward/pytorch-dqn
-https://github.com/berkeleydeeprlcourse/homework/tree/master/hw3
+- https://github.com/transedward/pytorch-dqn
+- https://github.com/berkeleydeeprlcourse/homework/tree/master/hw3
 
 [Human-level control through deep reinforcement learning]: http://www.nature.com/nature/journal/v518/n7540/full/nature14236.html
 [Deep Reinforcement Learning with Double Q-learning]: https://arxiv.org/abs/1509.06461
