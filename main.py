@@ -1,44 +1,48 @@
 import sys
 import yaml
+import argparse
 import gym
 from utils.gym import get_env, get_wrapper_by_name
 from agent import DQNCNNAgent
 
 import torch
 
+parser = argparse.ArgumentParser(description='DQN')
+parser.add_argument('--config', default='params.yaml', metavar='PATH')
+parser.add_argument('--save_dir', default='gym-results/', metavar='PATH')
+parser.add_argument('--modelpath', default='', metavar='PATH')
+args = parser.parse_args()
 
-def main(env, max_timesteps, args):
+
+def main(env, max_timesteps, config):
     def stopping_criterion(env):
         # notice that here t is the number of steps of the wrapped env,
         # which is different from the number of steps in the underlying env
         return get_wrapper_by_name(env, "Monitor").get_total_steps() >= max_timesteps
-    agent = DQNCNNAgent(env, args)
-    if args['mode'] == 'train':
+    agent = DQNCNNAgent(env, config)
+    if config['mode'] == 'train':
         agent.train(stopping_criterion)
         agent.save()
-    if args['mode'] == 'eval':
+    if config['mode'] == 'eval':
         agent.eval(10)
 
 
 if __name__ == '__main__':
-    assert(len(sys.argv) >= 3)
-    param_file = sys.argv[1]
-    save_dir = sys.argv[2]
-    args = yaml.load(open(param_file))
-    args['save_dir'] = save_dir
-    if len(sys.argv) > 3:
-        args['modelpath'] = sys.argv[3]
+    config = yaml.load(open(args.config))
+    config['save_dir'] = args.save_dir
+    if config.modelpath:
+        config['modelpath'] = args.modelpath
 
-    if 'use_gpu' in args:
-        args['use_gpu'] = args['use_gpu'] and torch.cuda.is_available()
+    if 'use_gpu' in config:
+        config['use_gpu'] = config['use_gpu'] and torch.cuda.is_available()
     else:
-        args['use_gpu'] = torch.cuda.is_available()
+        config['use_gpu'] = torch.cuda.is_available()
     # Get Atari games.
     benchmark = gym.benchmark_spec('Atari40M')
-    task = benchmark.tasks[args['env_id']]
+    task = benchmark.tasks[config['env_id']]
 
     # Run training
-    seed = args['seed']
-    env = get_env(task, seed, save_dir)
+    seed = config['seed']
+    env = get_env(task, seed, args.save_dir)
 
-    main(env, task.max_timesteps, args)
+    main(env, task.max_timesteps, config)
