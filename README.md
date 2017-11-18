@@ -1,18 +1,18 @@
 # Pytorch-Double-DQN
 This is project is a PyTorch implementation of [Human-level control through deep reinforcement learning] along with the Double DQN improvement suggested in [Deep Reinforcement Learning with Double Q-learning].
 
-# Requirements
+## Requirements
 - python 3.5
 - [pytorch]
 - [pyyaml]
 - [gym]
 
-# Usage
+## Usage
 ```sh
 python main.py [-h] --config PATH --save_dir PATH [--modelpath PATH]
 ```
 The config file is a yaml file used to provide arguments include mode (train or eval). A sample config file has been provided [here].
-# References
+## References
 - https://github.com/transedward/pytorch-dqn
 - https://github.com/berkeleydeeprlcourse/homework/tree/master/hw3
 
